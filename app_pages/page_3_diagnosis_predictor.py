@@ -88,7 +88,6 @@ def DrawInputsWidgets():
     col4, col5, col6 = st.columns(3)
     col7, col8, col9 = st.columns(3)
 
-
     # empty DataFrame for live data
     X_live = pd.DataFrame([], index=[0])
 

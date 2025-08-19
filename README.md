@@ -1,5 +1,9 @@
 # Breast Cancer Diagnosis
 
+---
+
+![Responsive Dashboard](/static/images/dashboard.png)
+
 This project is part of the five milestone projects within the Full Stack Developer course offered by Code Institute. It is the final project in this course and represents my chosen path in Predictive Analytics. The initial concept for this project revolves around 'working with data'.
 
 In this project, you will be guided step by step through the entire process, from data cleaning to feature engineering. The content has been personalized to create a welcoming atmosphere, helping you gain a thorough understanding of each individual step, including what I did and how I accomplished it.
@@ -93,9 +97,13 @@ Ordering starts from 0 to match the imported dataset.
 
 ## Agile methodology - Development
 
+### User Stroies
+
 - In the beginning of the project I decided to create a Kanban project, where to input 'issues', the idea was to help me in following a
 direction while building this project.
-- The kanban board for this project can be found in this url [@taz1003's cancer diagnosis project](https://github.com/users/taz1003/projects/5).
+- The kanban board for this project can be found in this url [@taz1003's cancer diagnosis project](https://github.com/users/taz1003/projects/5/views/1).
+
+![PP5 Kanban](/static/images/kanban.png)
 
 ## Crisp-DM, what is it and how is it used?
 
@@ -123,7 +131,26 @@ The client doesn't want to miss a malignant case, even if that comes with a cost
 1. The client is interested in understanding the key diagnostic features most strongly correlated with malignant tumors so that oncologists can focus on the most relevant indicators during patient evaluations.
 2. The client is interested in determining whether a newly detected tumor is malignant or benign. If malignant, the client is also interested in identifying the severity group (cluster) based on historical patient patterns. Using these insights, the client expects recommendations on the most critical diagnostic factors to monitor and strategies to improve early detection and intervention for high-risk cases.
 
+The client also presented the criteria for the performance goal of the predictions:
+
+- At least 90% Recall for Malignant and 90% Precision for Benign cases.
+- Clustering validation with Silhouette Score ≥ 0.4 for meaningful group separation.
+
 The client has access to a publicly available dataset containing detailed breast cancer diagnostic measurements, including tumor size, texture, shape, and other cell nucleus characteristics, along with confirmed classifications of each case as malignant or benign.
+
+## Hypothesis and how to validate?
+
+### Hypothesis One
+
+***"Higher tumor size and area (area_worst) significantly increase the likelihood of malignant diagnosis."***
+
+- A Correlation study (Pearson/Spearman + Multivariate analysis)  can help in this investigation.
+
+### Hypothesis Two
+
+***"Higher concavity and perimeter features are strongly linked with malignant diagnosis."***
+
+- A correlation study (Pearson/Spearman + Multivariate analysis) and Cluster Analysis can help in investigating if this is true.
 
 ## Rationale to map the business requirements to the Data Visualizations and ML tasks
 
@@ -131,36 +158,133 @@ The client has access to a publicly available dataset containing detailed breast
 
 As a data practitioner I will -
 
-1. identify the most critical features (e.g., radius, area value, concavity) correlated with malignant tumors.
-2. use statistical and visual analysis to guide early diagnosis.
+1. Identify the most important features (e.g., radius, area value, concavity) correlated with malignant tumors.
+2. Conduct a correlation (Pearson and Spearman) and Multiviriate (MVA) study so I can better understand how the variables are correlated to cancer diagnosis, which enables me to discover how the tumor features correlate with breast cancer diagnosis.
+
+### Outcome of Correlation study
+
+- Higher worst area value might point to a Malignant diagnosis.
+
+![area_worst](/static/images/cor-study-one.png)
+
+- Mean of the concave points if >0.05 might point to a Malignant diagnosis.
+
+![concave_points_mean](/static/images/cor-study-two.png)
+
+- Concave worst area value if >0.14 might point to a Malignant diagnosis.
+
+![concave_points_worst](/static/images/cor-study-three.png)
+
+- A mean tumor boundary(perimeter) value of >85 might point to a Malignant diagnosis.
+
+![preimeter_mean](/static/images/cor-study-four.png)
+
+- A >100 value of outer perimeter of lobes might point to a Malignant diagnosis.
+
+![perimeter_worst](/static/images/cor-study-five.png)
+
+- Higher worst radius value might point to a Malignant diagnosis.
+
+![redius_worst](/static/images/cor-study-six.png)
+
+### Outcome of the Multiviriate Analysis (MVA)
+
+- Multivariate analysis (MVA) is a set of statistical methods used to analyze data sets with multiple variables, examining relationships and patterns among them. We will visualize the MVA among the variables, all in one go, with a pairplot figure.
+
+![MVA](/static/images/mvr_study.png)
 
 ### Business Requirement 2 - **Classification, Clustering, and Data Analysis**
 
-1. Predict whether a new patient’s tumor is malignant or benign. I will build a binary classification model for this task.
-2. I want to identify the cluster profile of a new patient case to recommend potential diagnostic focus areas and support earlier, more accurate detection.
-3. Cluster patients into risk groups for personalized treatment plans.
+1. To predict whether a new patient’s tumor is malignant or benign, I will build a binary classification model for this task with the most important features.
+2. I want to identify the cluster profile of a new patient case to recommend potential breast cancer diagnosis and support earlier, more accurate detection.
+3. I will put Clustered patients into three risk groups for required treatment procedures - High, Low & Moderate to High-Risk factors.
 
-## Hypothesis and how to validate?
+### Outcome of the Prediction and Cluster Analysis
 
-### Hypothesis One
+#### Binary Classification
 
-***"Tumors with a larger worst area and greater mean perimeter (>85) are more likely to be Malignant."***
+- The most important features that I found after the assessment are - "area_mean", "smoothness_worst", "perimeter_se", "texture_worst" and "fractal_dimension_se", with which I built the Binary Classification Model to predict malignant or benign tumors.
 
-- A Correlation study (Pearson/Spearman + Multivariate analysis)  can help in this investigation.
+![Important Features](/static/images/imp_features.png)
 
-### Hypothesis Two
+#### Cluster Analysis
 
-***"Tumors with higher concavity_mean and concavity_worst values are more likely to be Malignant."***
+I achieved a silhoutte score of 49% which surpassed that client' criteria of success.
+Also the cluster classifications are as follows:
 
-- A correlation study (Pearson/Spearman + Multivariate analysis) can help in investigating if this is true.
+- Cluster 0: Mostly malignant (69%), with moderately irregular contours (concavity 0.112-0.198), mid-range tumor size (perimeter 97.692-119.7), and high structural complexity (fractal dimension 0.104-0.124). The 31% benign cases suggest some borderline tumors in this group.
+
+- Cluster 1: Predominantly benign (92%), featuring smooth margins (concavity 0.02-0.059), compact size (perimeter 79.7-98.385), and low structural disorder (fractal dimension 0.069-0.083). The 8% malignant cases may represent early-stage or misclassified tumors.
+
+- Cluster 2: Entirely malignant (100%), showing highly irregular shapes (concavity 0.125-0.219), large tumor spread (perimeter 140.35-170.15), and moderate structural chaos (fractal dimension 0.076-0.092). This cluster clearly represents aggressive, high-risk malignancies.
+
+![Clusters](/static/images/clusters.png)
+
+#### Predictve Analysis
+
+- After a thorough study with the classification model and cluster analysis, I was able to present an AI-based Breast Cancer Diagnosis Predictor in the Dashboard which predicts the Malignancy or Benign level of tumors in a patient's body.
+
+![Predictor](/static/images/page_3_predictor.png)
 
 ## ML Business Case
 
-### Binary Classification (Malignant vs. Benign)
+### Business Case Assessment
 
-### Severity Estimation (Regression?)
+- What are the business requirements?
 
-### Patient Clustering (Unsupervised Learning)
+  - Answers presented in the `Rationale to map the business requirements to the Data Visualizations and ML tasks` section.
+
+- Is there any business requirement that can be answered with conventional data analysis?
+
+  - Yes. Correlation analysis and visualizations can be used to investigate how tumor features (e.g., area_mean, concavity_mean, perimeter_worst) are associated with benign vs. malignant diagnoses.
+
+- Does the client need a dashboard or an API endpoint?
+
+  - The client needs a dashboard (already implemented with 6 pages: project summary, diagnosis study, diagnosis predictor, hypotheses, ML pipelines, clustering).
+
+- What does the client consider as a successful project outcome?
+
+  - A study showing the most relevant tumor attributes correlated to malignant or benign diagnosis.
+  - A predictive model (with probability up to 100%) that can classify new patient cases and assign them to cluster groups.
+  - Clear interpretations of the hypotheses derived from the data.
+  - A deployed interactive dashboard where clinicians/researchers can visualize and experiment with inputs.
+
+- Can you break down the project into Epics and User Stories?
+
+  - Information gathering and data collection
+  - Data visualization, cleaning, and preparation
+  - Model training, optimization and validation
+  - Dashboard planning, designing, and development
+  - Dashboard deployment and release
+
+- Ethical or Privacy concerns?
+
+  - No. The dataset is publicly available (Breast Cancer Wisconsin dataset) in [Kaggle](https://www.kaggle.com/datasets/yasserh/breast-cancer-dataset).
+
+- Does the data suggest a particular model?
+
+  - Yes. The data suggests classification models (target = diagnosis: Benign vs. Malignant).
+  - For feature relevance, tree-based models such as AdaBoostClassifier or GradientBoostingClassifier are appropriate.
+
+- What are the model's inputs and intended outputs?
+
+  - **Inputs**: Tumor attributes (area_mean, smoothness_worst, perimeter_se, concavity_mean, etc.).
+  - **Outputs**:
+    1. Diagnosis prediction (Benign or Malignant) with probability up to 100%.
+    2. Cluster assignment (Cluster 0 = 69% malignant, Cluster 1 = 92% benign, Cluster 2 = 100% malignant).
+
+- What are the criteria for the performance goal of the predictions?
+
+  - At least 90% Recall for Malignant and 90% Precision for Benign cases which I surpassed with Benign precision at 100% for Train set, 97% for Test set and Malignant recall at 100% for Train set and 96% for Test set
+  - Clustering validation with Silhouette Score ≥ 0.4 for meaningful group separation which I also surpassed with a silhoutte score of 49%.
+
+- How will the client benefit?
+
+  - The client (healthcare provider organization) will be able to:
+    1. Understand which tumor attributes are most critical for diagnosis.
+    2. Predict patient diagnosis with high probability using the interactive dashboard.
+    3. Explore clusters of patients that may correspond to different biological subtypes of cancer.
+    4. Test hypotheses and validate medical insights interactively.
 
 ## Dashboard Design (Streamlit App User Interface)
 
@@ -168,39 +292,126 @@ As a data practitioner I will -
 
 Quick project summary:
 
-- Project Terms & Jargon
-- Describe Project Dataset
-- State Business Requirements
+- **Project Terms & Jargon**
+
+  - Describe the breast cancer dataset shortly.
+
+- **Project Repository link**
+
+  - Url directing the user to this repository.
+
+- **State Business Requirements**
+
+  - State business requirements:
+    1. Identify the most important tumor attributes correlated to diagnosis.
+    2. Build ML pipelines to predict diagnosis and perform clustering analysis.
+
+![Page 1](/static/images/page_1_summary.png)
+
+### Page 2: Breast Cancer Diagnosis Study
+
+- Load the data used for this project.
+- Display the variables that bear the strongest correlation to diagnosis
+- Checkbox: Data inspection on the breast cancer dataset.
+- Describe and visualize the correlation study
+among the variables and the target (diagnosis).
+- Checkbox: Individual plots showing how diagnosis correlates with each key feature.
+
+![Page 2](/static/images/page_2_study.png)
+
+### Page 3: Diagnosis Predictor Interface
+
+- Predict diagnosis (Benign vs. Malignant) for new patient data.
+- Allow input of patient tumor features via Streamlit widgets.
+- Display the predicted diagnosis probability (up to 100%).
+- Assign and display cluster membership (e.g., Cluster 0 = 69% malignant, Cluster 1 = 92% benign, Cluster 2 = 100% malignant).
+- Suggest appropriate treatment suggestions based on the cluster group.
+
+![Page 1](/static/images/page_3_predictor.png)
+
+### Page 4: Project Hypothesis and Validation
+
+- Before the analysis, this page was designed to describe each hypothesis and its validation method.
+- After the analysis I can report that:
+  1. Higher tumor size and area (area_mean, area_worst) significantly increase the likelihood of malignant diagnosis.
+  2. Higher concavity and perimeter features are strongly linked with malignant diagnosis.
+
+![Page 1](/static/images/page_4_hypothesis.png)
+
+### Page 5: ML: Predict Breast Cancer Diagnosis
+
+- Considerations and conclusions after the pipeline training.
+- Present the ML pipeline steps:
+  1. The first is responsible for data cleaning and feature engineering.
+  2. The second is for feature scaling and modelling.
+- Enlist the features the model was trained and their importance.
+- Present pipeline performace through confusion matrix using the Train and Test datasets.
+
+![Page 1](/static/images/page_5_ml_diagnosis.png)
+
+### Page 6: ML: Cluster Analysis
+
+- Describe the pipeline used for cluster analysis.
+- List the features used as well.
+- Display results of clustering with 3 clusters with Silhoutte Score & interactive plots.
+- Map clusters to diagnosis probabilities (Cluster 0 = 69% malignant, Cluster 1 = 92% benign, Cluster 2 = 100% malignant).
+- Conclusion: Clusters provide additional insights into subgroups of patients to aid in treatment assessments.
+
+![Page 1](/static/images/page_6_ml_cluster.png)
 
 ---
 
-## Bugs
+## Bug Fixes
 
-### Data Cleaning Notebook
+### Recreating Repository Due to Corruption
 
+- Previous repository of this project was internally corrupted which I found out while deploying to Heroku.
+- Mainly because, the versions of the requirements.txt packages were not compatible along with incompatibilty issues with
+Python 3.12.1, which crashed and corrupted the whole repository.
+- I recreated the repository of the project and transferrred the files and made sure to keep the package files compatible.
+- One down side of this is the lesser number of commits and bug fixes I originally had.
+- The previous repo is in this [GitHub link](https://github.com/taz1003/breast-cancer-diagnosis-PP5), to check out if interrested.
+
+### Data Cleaning Notebook (Previous Redo)
+
+- This bug fix was from the previous [repository](https://github.com/taz1003/breast-cancer-diagnosis-PP5).
 - During the correlation and PPS study, after I ran the `CalculateCorrAndPPS(df)` function, I got a warning that denotes - "`FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead`".
 - After a brief online research and discussions with my peers, I got rid of the warning by adding `_is_categorical_dtype(series)` function before running the `CalculateCorrAndPPS(df)` function.
 
 ### Cluster Notebook (1)
 
+- This bug fix was from the previous [repository](https://github.com/taz1003/breast-cancer-diagnosis-PP5).
 - During the process of finding the optimized values of the clusters using Elbow Method and Silhoutte Score, I got font-waarning - `findfont: Generic family 'sans-serif' not found because none of the following families were found: Arial, Liberation Sans, Bitstream Vera Sans, sans-serif findfont: Font family ['sans-serif'] not found. Falling back to DejaVu Sans.`
 - Fixed the font-issue warning by specifying the fonts taken from [StackOverflow](https://stackoverflow.com/questions/42097053/matplotlib-cannot-find-basic-fonts).
 
 ### Cluster Notebook (2)
 
+- This bug fix was from the previous [repository](https://github.com/taz1003/breast-cancer-diagnosis-PP5).
 - During the assessment of the most important features, that define a cluster, I was getting an error - `The 'Pipeline' has no attribute 'transform'`.
 - The issue was because the pipeline `PipelineClf2ExplainClusters` ends with a classifier `GradientBoostingClassifier` and Scikit-learn’s Pipeline.transform() only works if all final steps have transform() methods.
 - With the help of [StackOverflow](https://stackoverflow.com/questions/57043168/attribute-error-pipeline-object-has-not-attribute-transform) and [Scikit-learn](https://scikit-learn.org/stable/modules/feature_selection.html), fixed the issue by adding the features after scaling and feature selection, but before the classifier and fitting them into a variable.
 
 ### Cluster Notebook (3)
 
+- This bug fix was from the previous [repository](https://github.com/taz1003/breast-cancer-diagnosis-PP5).
 - During the cluster analysis based on their profiles, I ran into an error that said `AttributeError: 'DataFrame' object has no attribute 'append'`.
 - This happended because `DataFrame.append()`, which was used in the `DescriptionAllClusters()` function, was deprecated in the previous Pandas versions than the one i am using.
 - Fixed it by using the modern replacement `pd.concat` to concatenate `DescriptionAllClusters`, `ClusterDescription`.
 
+### Page 6 Cluster (Dashboard)
+
+- While deploying to Heroku, I ran into this error `ValueError: Mime type rendering requires ipython but it is not installed` in
+Page 6 (Cluster) of the Dashboard.
+- Fixed it by replacing `fig.show(renderer='jupyterlab')` with `st.plotly_chart(fig)`.
+
+## Unfixed Bugs
+
+- In Page 5 - ML: Predict Breast Cancer Diagnosis from the Dashboard, the Train and Test tables contains
+Previous Benign and Previous Malignant texts a bit disrupted with brackets and commas.
+
 ## Deployment
 
-The master branch of this repository has been used for the deployed version of this application.
+The main branch of this repository has been used for the deployed version of this application.
 
 ### Using Github & VSCode
 
@@ -261,21 +472,38 @@ By forking the GitHub Repository you will be able to make a copy of the original
 |Kaggle|Used to import the dataset required to perform the analysis|[URL](https://www.kaggle.com/)|
 |Grammarly|Used to improve, modify or add written communications throughout the project|[URL](https://app.grammarly.com/)|
 
-## Credits
+## Credits & Content
 
-- Got the idea for the best model_n_estimators for AdaBoostClassifier in the Predict Diagnosis notebook from [StackOverflow](https://stackoverflow.com/questions/47216224/selecting-n-estimators-based-on-dataset-size-for-adaboostclassifier)
+- The content of this project, represent the understanding provided by walk-through projects provided by Code Institute.
+There might be some similarities as some contents have been taken and modified directly from the walk-through project 2 'Churnometer'.
 
-### Content
+- [Kaggle](https://www.kaggle.com/datasets/yasserh/breast-cancer-dataset) provided the dataset used in this project.
 
-- The text for the Home page was taken from Wikipedia Article A
-- Instructions on how to implement form validation on the Sign-Up page were taken from [Specific YouTube Tutorial](https://www.youtube.com/)
-- The icons in the footer were taken from [Font Awesome](https://fontawesome.com/)
+- Some bugs and issues appeared while the project was under contruction which have been fixed using [Stack Overflow](https://stackoverflow.com/questions).
+
+- Got the idea for the best model_n_estimators for AdaBoostClassifier in the Predict Diagnosis notebook from [Stack Overflow](https://stackoverflow.com/questions/47216224/selecting-n-estimators-based-on-dataset-size-for-adaboostclassifier)
+
+- I have explored in more details different terms used within deep machine learning from the Youtube channel - [Infinite Codes](https://www.youtube.com/@InfiniteCodes_/featured).
+
+- The readme file was built using the Code Institute template.
+
+- Some elements (README.md and Jupyter Notebook) presented throughout the project have been inspired from [Van-essa](https://github.com/van-essa/heritage-housing-issues).
+
+- My Mentor Gareth_Mentor who guided me through the project making sure the best practices were used.
+
+- My peer [Moshiur Rahman](https://www.linkedin.com/in/mrahman2352k/) for providing some ideas, including picking out the dataset, throughout this project.
 
 ### Media
 
-- The photos used on the home and sign-up page are from This Open-Source site
-- The images used for the gallery page were taken from this other open-source site
+- The [Am I Responsive](https://ui.dev/amiresponsive) page was used to get the introductory image in README.md.
+- The icon for the deployed project was taken from [Twemoji](https://twemoji-cheatsheet.vercel.app/).
 
-## Acknowledgements (optional)
+## Acknowledgements
 
-Thank the people who provided support through this project.
+- A big thank you to Code Institute for such an amazing course! I've really enjoyed every moment of this experience, and it's been awesome to see my mindset evolve as I learn and interact with the material.
+
+- Many thanks to my mentor Gareth_Mentor who guided me through the project making sure the best practices were used.
+
+- Appreciation towards [Moshiur Rahman](https://www.linkedin.com/in/mrahman2352k/) for providing support for this project.
+
+- Huge thanks to my peers at Slack for providing me ideas and courage to go through this course.

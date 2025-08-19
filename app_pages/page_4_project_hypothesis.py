@@ -6,16 +6,16 @@ def page_project_hypothesis_body():
 
     st.success(
         f"Hypothesis 1: "
-        f"***Breast tumors with larger worst area (>1,000 units) and higher perimeter (>85 units) are more likely to be Malignant.***\n"
-        f"* The correlation study from the Breast Cancer Diagnosis Study page supports that, "
-        f"tumor size and spread play a significant role in diagnosis. \n\n"
+        f"***Higher tumor size and area (area_mean, area_worst) significantly increase the likelihood of malignant diagnosis.***\n"
+        f"* Validated via correlation analysis and feature importance from AdaBoost.\n"
+        f"* The correlation study using Spearman correlation method visualized in the Breast Cancer Diagnosis Study page supports that.\n\n"
     )
 
     st.success(
         f"Hypothesis 2: "
-        f"***The shape irregularity of the tumor, measured by concavity_mean (>0.05) and concavity_worst (>0.14), strongly indicates a Malignant diagnosis.***\n"
-        f"* Multivariate analysis (MVA) study presented in the Breast Cancer Diagnosis Study page supports that, "
-        f"boundary irregularity is a strong diagnostic signal.\n\n"
+        f"***Higher concavity and perimeter features are strongly linked with malignant diagnosis.***\n"
+        f"Validated via clustering and threshold-based plots.\n"
+        f"* Multivariate analysis (MVA) study presented in the Breast Cancer Diagnosis Study page supports that.\n\n"
     )
 
     st.info(

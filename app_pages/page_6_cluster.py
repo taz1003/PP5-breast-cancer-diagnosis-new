@@ -122,7 +122,7 @@ def cluster_distribution_per_variable(df, target):
                  color=target, width=800, height=500)
     fig.update_layout(xaxis=dict(tickmode='array',
                       tickvals=df['Clusters'].unique()))
-    fig.show(renderer='jupyterlab')
+    st.plotly_chart(fig)
 
     df_relative = (df
                    .groupby(["Clusters", target])

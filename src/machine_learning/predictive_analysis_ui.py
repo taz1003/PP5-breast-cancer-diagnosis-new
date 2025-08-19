@@ -23,11 +23,11 @@ def predict_diagnosis(X_live, diagnosis_features, diagnosis_pipeline_dc_fe, diag
     else:
         diagnosis_result = 'Benign'
 
-    statement = (
+    statement_one = (
         f'### There is {diagnosis_prob.round(1)}% probability '
         f'that this patient has **{diagnosis_result}** tumor.')
 
-    st.write(statement)
+    st.write(statement_one)
 
     return diagnosis_prediction
 
@@ -40,31 +40,31 @@ def predict_cluster(X_live, cluster_features, cluster_pipeline, cluster_profile)
     # predict
     cluster_prediction = cluster_pipeline.predict(X_live_cluster)
 
-    statement = (
+    statement_two = (
         f"### The patient is expected to belong to **cluster {cluster_prediction[0]}**")
     st.write("---")
-    st.write(statement)
+    st.write(statement_two)
 
     # text based on "06 - Modeling and Evaluation - Cluster Sklearn" notebook conclusions
-    statement = (
-        f"* Analytically **patients in Clusters 0  tend to have Benign tumors** "
-        f"whereas in **Cluster 1 nearly all patients have higher chance of having Malignant tumors** "
-        f"and in **Cluster 2 most of the patients might have Malignant tumors**."
+    statement_three = (
+        f"* Analytically **patients in Clusters 1 tend to have Benign tumors** "
+        f"whereas in **Cluster 2 nearly all patients have higher chance of having Malignant tumors** "
+        f"and in **Cluster 0 most of the patients might have Malignant tumors**."
     )
-    st.info(statement)
+    st.info(statement_three)
 
     # text based on "06 - Modeling and Evaluation - Cluster Sklearn" notebook conclusions
-    statement = (
+    statement_four = (
+        f"* The cluster profile interpretation allowed us to label the cluster in the following fashion:\n\n"
         f"* **Cluster 0:** Mixed but malignant-leaning (69%), with moderate sizes, irregular shapes, and the highest chaos."
         f" Patients belonging to cluster 0 are at the *moderate to high-risk* factor. Close monitoring is suggested.\n\n"
-        f"* The cluster profile interpretation allowed us to label the cluster in the following fashion:\n"
         f"* **Cluster 1:** Mostly benign (92%), with smooth contours, smaller tumor sizes, and low structural disorder. "
         f"Patients belonging to cluster 1 are at the *low-risk* factor.  Regular check-ups are suggested.\n\n"
         f"* **Cluster 2:** Entirely malignant (100%), marked by large tumor size, irregular margins, and aggressive growth."
         f" Patients belonging to cluster 2 are at the *high-risk* factor. Immediate treatment is suggested.\n\n"
     )
-    st.success(statement)
-    
+    st.success(statement_four)
+
     # hack to not display index in st.table() or st.write()
     cluster_profile.index = [" "] * len(cluster_profile)
     # display cluster profile in a table - it is better than in st.write()

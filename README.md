@@ -10,7 +10,7 @@ In this project, you will be guided step by step through the entire process, fro
 
 If you ever feel confused, please refer back to the README file, where you will find a wealth of important information relevant to the project.
 
-The live application can be found [here].
+[The live application can be found here](https://breast-cancr-diagnosis-taz1003-db1eeca77975.herokuapp.com/).
 
 ## Dataset Content
 

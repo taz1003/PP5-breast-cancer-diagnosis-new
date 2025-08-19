@@ -1,142 +1,281 @@
-# ![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# Breast Cancer Diagnosis
 
-## Template Instructions
+This project is part of the five milestone projects within the Full Stack Developer course offered by Code Institute. It is the final project in this course and represents my chosen path in Predictive Analytics. The initial concept for this project revolves around 'working with data'.
 
-Welcome,
+In this project, you will be guided step by step through the entire process, from data cleaning to feature engineering. The content has been personalized to create a welcoming atmosphere, helping you gain a thorough understanding of each individual step, including what I did and how I accomplished it.
 
-This is the Code Institute student template for the Heritage Housing project option in Predictive Analytics. We have preinstalled all of the tools you need to get started. It's perfectly ok to use this template as the basis for your project submissions. Click the `Use this template` button above to get started.
+If you ever feel confused, please refer back to the README file, where you will find a wealth of important information relevant to the project.
 
-You can safely delete the Template Instructions section of this README.md file,  and modify the remaining paragraphs for your own project. Please do read the Template Instructions at least once, though! It contains some important information about the IDE and the extensions we use.
-
-## How to use this repo
-
-1. Use this template to create your GitHub project repo
-
-2. In your new repo click on the green Code button
-
-3. Then, from the Codespaces tab, click Create codespace on main.
-
-5. Wait for the workspace to open. This can take a few minutes.
-
-6. Open a new terminal and `pip3 install -r requirements.txt`
-
-7. Open the jupyter_notebooks directory and click on the notebook you want to open.
-
-8. Click the kernel button and choose Python Environments.
-
-Note that the kernel says Python 3.12.1 as it inherits from the workspace so it will be Python-3.12.1 as installed by Codespaces. To confirm this you can use `! python --version` in a notebook code cell.
-
-## Cloud IDE Reminders
-
-To log into the Heroku toolbelt CLI:
-
-1. Log in to your Heroku account and go to *Account Settings* in the menu under your avatar.
-2. Scroll down to the *API Key* and click *Reveal*
-3. Copy the key
-4. In your Cloud IDE, from the terminal, run `heroku_config`
-5. Paste in your API key when asked
-
-You can now use the `heroku` CLI program - try running `heroku apps` to confirm it works. This API key is unique and private to you so do not share it. If you accidentally make it public then you can create a new one with *Regenerate API Key*.
+The live application can be found [here].
 
 ## Dataset Content
 
-* The dataset is sourced from [Kaggle](https://www.kaggle.com/codeinstitute/housing-prices-data). We then created a fictitious user story where predictive analytics can be applied in a real project in the workplace.
-* The dataset has almost 1.5 thousand rows and represents housing records from Ames, Iowa, indicating house profile (Floor Area, Basement, Garage, Kitchen, Lot, Porch, Wood Deck, Year Built) and its respective sale price for houses built between 1872 and 2010.
+The dataset is sourced from [Kaggle](https://www.kaggle.com/datasets/yasserh/breast-cancer-dataset).
 
-|Variable|Meaning|Units|
+**What is Kaggle?**
+
+- Kaggle is an online community platform for data scientists and machine learning enthusiasts.
+- Kaggle allows users to collaborate with other users, find and publish datasets, use GPU integrated notebooks, and compete with other data scientists to solve data science challenges.
+
+In this project, I created a fictional user story. However, the predictive analytics conducted could be applied to a real project in the workplace.
+
+### About the dataset
+
+Breast cancer is the most common cancer amongst women in the world. It accounts for 30% of all cancer cases, and affected over 2.3 Million people in 2024 alone. It starts when cells in the breast begin to grow out of control. These cells usually form tumors that can be seen via X-ray or felt as lumps in the breast area.
+
+This dataset contains 569 patient records (rows) with 32 features (columns) representing tumor characteristics extracted from digitized breast mass images. It comprises the mean, SE, and worst versions of each of the 10 core measurements. The data was collected from clinical imaging and biopsy results at the University of Wisconsin Hospitals.
+
+The dataset includes tumor profile measurements such as:
+
+#### Physical Features
+
+- Tumor size (radius, perimeter, area)
+
+- Structural properties (concavity, compactness, symmetry)
+
+- Texture characteristics
+
+#### Statistical feautures
+
+- Mean values
+  
+- Standard errors
+  
+- "Worst" measurements (most severe observations)
+
+#### Target Variable
+
+`diagnosis`: Binary classification of tumors:
+
+- M = Malignant (cancerous)
+
+- B = Benign (non-cancerous)
+
+In any part of the project where you don’t understand one of the variables used in the analysis, please refer to the table below.
+Ordering starts from 0 to match the imported dataset.
+
+### Abbreviations explained
+
+|Variable|Meaning|Units/Categories|
 |:----|:----|:----|
-|1stFlrSF|First Floor square feet|334 - 4692|
-|2ndFlrSF|Second-floor square feet|0 - 2065|
-|BedroomAbvGr|Bedrooms above grade (does NOT include basement bedrooms)|0 - 8|
-|BsmtExposure|Refers to walkout or garden level walls|Gd: Good Exposure; Av: Average Exposure; Mn: Minimum Exposure; No: No Exposure; None: No Basement|
-|BsmtFinType1|Rating of basement finished area|GLQ: Good Living Quarters; ALQ: Average Living Quarters; BLQ: Below Average Living Quarters; Rec: Average Rec Room; LwQ: Low Quality; Unf: Unfinshed; None: No Basement|
-|BsmtFinSF1|Type 1 finished square feet|0 - 5644|
-|BsmtUnfSF|Unfinished square feet of basement area|0 - 2336|
-|TotalBsmtSF|Total square feet of basement area|0 - 6110|
-|GarageArea|Size of garage in square feet|0 - 1418|
-|GarageFinish|Interior finish of the garage|Fin: Finished; RFn: Rough Finished; Unf: Unfinished; None: No Garage|
-|GarageYrBlt|Year garage was built|1900 - 2010|
-|GrLivArea|Above grade (ground) living area square feet|334 - 5642|
-|KitchenQual|Kitchen quality|Ex: Excellent; Gd: Good; TA: Typical/Average; Fa: Fair; Po: Poor|
-|LotArea| Lot size in square feet|1300 - 215245|
-|LotFrontage| Linear feet of street connected to property|21 - 313|
-|MasVnrArea|Masonry veneer area in square feet|0 - 1600|
-|EnclosedPorch|Enclosed porch area in square feet|0 - 286|
-|OpenPorchSF|Open porch area in square feet|0 - 547|
-|OverallCond|Rates the overall condition of the house|10: Very Excellent; 9: Excellent; 8: Very Good; 7: Good; 6: Above Average; 5: Average; 4: Below Average; 3: Fair; 2: Poor; 1: Very Poor|
-|OverallQual|Rates the overall material and finish of the house|10: Very Excellent; 9: Excellent; 8: Very Good; 7: Good; 6: Above Average; 5: Average; 4: Below Average; 3: Fair; 2: Poor; 1: Very Poor|
-|WoodDeckSF|Wood deck area in square feet|0 - 736|
-|YearBuilt|Original construction date|1872 - 2010|
-|YearRemodAdd|Remodel date (same as construction date if no remodelling or additions)|1950 - 2010|
-|SalePrice|Sale Price|34900 - 755000|
+|0. id|Patient identification number|Integer|
+|1. diagnosis|Tumor classification|M = Malignant, B = Benign|
+|2. radius_mean|Mean radius of tumor nuclei|Continuous (unitless pixel or scaled)|
+|3. texture_mean|Mean of standard deviation of gray-scale values|Continuous|
+|4. perimeter_mean|Mean size of tumor boundary|Continuous|
+|5. area_mean|Mean tumor area|Continuous|
+|6. smoothness_mean|Mean local variation in radius lengths|Continuous|
+|7. compactness_mean|Mean (perimeter² / area − 1.0)|Continuous|
+|8. concavity_mean|Mean severity of concave portions of contour|Continuous|
+|9. concave points_mean|Mean number of concave portions|Continuous|
+|10. symmetry_mean|Mean symmetry of nucleus|Continuous|
+|11. fractal_dimension_mean|Mean “coastline approximation” of boundary complexity|Continuous|
+|12. radius_se|Standard error of radius|Continuous|
+|13. texture_se|Standard error of texture|Continuous|
+|14. perimeter_se|Standard error of perimeter|Continuous|
+|15. area_se|Standard error of area|Continuous|
+|16. smoothness_se|Standard error of smoothness|Continuous|
+|17. compactness_se|Standard error of compactness|Continuous|
+|18. concavity_se|Standard error of concavity|Continuous|
+|19. concave points_se|Standard error of concave points|Continuous|
+|20. symmetry_se|Standard error of symmetry|Continuous|
+|21. fractal_dimension_se|Standard error of fractal dimension|Continuous|
+|22. radius_worst|Worst (largest) radius|Continuous|
+|23. texture_worst|Worst texture|Continuous|
+|24. perimeter_worst|Worst perimeter|Continuous|
+|25. area_worst|Worst area|Continuous|
+|26. smoothness_worst|Worst smoothness|Continuous|
+|27. compactness_worst|Worst compactness|Continuous|
+|28. concavity_worst|Worst concavity|Continuous|
+|29. concave points_worst|Worst concave points|Continuous|
+|30. symmetry_worst|Worst symmetry|Continuous|
+|31. fractal_dimension_worst|Worst fractal dimension|Continuous|
 
-## Business Requirements
+## Agile methodology - Development
 
-As a good friend, you are requested by your friend, who has received an inheritance from a deceased great-grandfather located in Ames, Iowa, to  help in maximising the sales price for the inherited properties.
+- In the beginning of the project I decided to create a Kanban project, where to input 'issues', the idea was to help me in following a
+direction while building this project.
+- The kanban board for this project can be found in this url [@taz1003's cancer diagnosis project](https://github.com/users/taz1003/projects/5).
 
-Although your friend has an excellent understanding of property prices in her own state and residential area, she fears that basing her estimates for property worth on her current knowledge might lead to inaccurate appraisals. What makes a house desirable and valuable where she comes from might not be the same in Ames, Iowa. She found a public dataset with house prices for Ames, Iowa, and will provide you with that.
+## Crisp-DM, what is it and how is it used?
 
-* 1 - The client is interested in discovering how the house attributes correlate with the sale price. Therefore, the client expects data visualisations of the correlated variables against the sale price to show that.
-* 2 - The client is interested in predicting the house sale price from her four inherited houses and any other house in Ames, Iowa.
+CRISP-DM, which stands for CRoss Industry Standard Process for Data Mining, is a process model that serves as the foundation for data science projects.
+
+CRISP-DM consists of six sequential phases:
+
+1. **Business Understanding** - What are the business requirements?
+2. **Data Understanding** - What data do we have or need? Is the data clean?
+   - Remember, "garbage in, garbage out," so it’s essential to ensure your data is properly cleaned.
+3. **Data Preparation** - How will we organize the data for modeling?
+4. **Modeling** - Which modeling techniques should we use?
+5. **Evaluation** - Which model best aligns with the business objectives?
+6. **Deployment** - How will stakeholders access the results?
+
+For a more in-depth understanding of each phase and how to implement them, please refer to [CRISP-DM](https://www.datascience-pm.com/crisp-dm-2/).
+
+## Business Case Overview
+
+As a Data Practitioner working with Code Institute, I was approached by a leading healthcare provider organization specializing in oncology to deliver actionable insights and predictive solutions. The client aims to improve diagnostic accuracy, optimize treatment prioritization, and enhance patient care outcomes by leveraging historical diagnostic data from breast cancer screenings.
+
+When defining the ML business case, it was agreed that the performance metric is  at least 90% Recall for Malignant and 90% Precision for Benign cases, since the client needs to detect a malignant case.
+The client doesn't want to miss a malignant case, even if that comes with a cost where you misidentify a benign tumour, and state it is malignant. For this client, this is not as bad as misidentifying a malignant tumour as benign.
+
+1. The client is interested in understanding the key diagnostic features most strongly correlated with malignant tumors so that oncologists can focus on the most relevant indicators during patient evaluations.
+2. The client is interested in determining whether a newly detected tumor is malignant or benign. If malignant, the client is also interested in identifying the severity group (cluster) based on historical patient patterns. Using these insights, the client expects recommendations on the most critical diagnostic factors to monitor and strategies to improve early detection and intervention for high-risk cases.
+
+The client has access to a publicly available dataset containing detailed breast cancer diagnostic measurements, including tumor size, texture, shape, and other cell nucleus characteristics, along with confirmed classifications of each case as malignant or benign.
+
+## Rationale to map the business requirements to the Data Visualizations and ML tasks
+
+### Business Requirement 1 - **Data Visualization and Correlation Study**
+
+As a data practitioner I will -
+
+1. identify the most critical features (e.g., radius, area value, concavity) correlated with malignant tumors.
+2. use statistical and visual analysis to guide early diagnosis.
+
+### Business Requirement 2 - **Classification, Clustering, and Data Analysis**
+
+1. Predict whether a new patient’s tumor is malignant or benign. I will build a binary classification model for this task.
+2. I want to identify the cluster profile of a new patient case to recommend potential diagnostic focus areas and support earlier, more accurate detection.
+3. Cluster patients into risk groups for personalized treatment plans.
 
 ## Hypothesis and how to validate?
 
-* List here your project hypothesis(es) and how you envision validating it (them).
+### Hypothesis One
 
-## The rationale to map the business requirements to the Data Visualisations and ML tasks
+***"Tumors with a larger worst area and greater mean perimeter (>85) are more likely to be Malignant."***
 
-* List your business requirements and a rationale to map them to the Data Visualisations and ML tasks.
+- A Correlation study (Pearson/Spearman + Multivariate analysis)  can help in this investigation.
+
+### Hypothesis Two
+
+***"Tumors with higher concavity_mean and concavity_worst values are more likely to be Malignant."***
+
+- A correlation study (Pearson/Spearman + Multivariate analysis) can help in investigating if this is true.
 
 ## ML Business Case
 
-* In the previous bullet, you potentially visualised an ML task to answer a business requirement. You should frame the business case using the method we covered in the course.
+### Binary Classification (Malignant vs. Benign)
 
-## Dashboard Design
+### Severity Estimation (Regression?)
 
-* List all dashboard pages and their content, either blocks of information or widgets, like buttons, checkboxes, images, or any other items that your dashboard library supports.
-* Eventually, during the project development, you may revisit your dashboard plan to update a given feature (for example, at the beginning of the project you were confident you would use a given plot to display an insight but eventually you needed to use another plot type)
+### Patient Clustering (Unsupervised Learning)
 
-## Unfixed Bugs
+## Dashboard Design (Streamlit App User Interface)
 
-* You will need to mention unfixed bugs and why they were not fixed. This section should include shortcomings of the frameworks or technologies used. Although time can be a big variable to consider, paucity of time and difficulty understanding implementation is not valid reason to leave bugs unfixed.
+### Page 1: Quick project summary
+
+Quick project summary:
+
+- Project Terms & Jargon
+- Describe Project Dataset
+- State Business Requirements
+
+---
+
+## Bugs
+
+### Data Cleaning Notebook
+
+- During the correlation and PPS study, after I ran the `CalculateCorrAndPPS(df)` function, I got a warning that denotes - "`FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead`".
+- After a brief online research and discussions with my peers, I got rid of the warning by adding `_is_categorical_dtype(series)` function before running the `CalculateCorrAndPPS(df)` function.
+
+### Cluster Notebook (1)
+
+- During the process of finding the optimized values of the clusters using Elbow Method and Silhoutte Score, I got font-waarning - `findfont: Generic family 'sans-serif' not found because none of the following families were found: Arial, Liberation Sans, Bitstream Vera Sans, sans-serif findfont: Font family ['sans-serif'] not found. Falling back to DejaVu Sans.`
+- Fixed the font-issue warning by specifying the fonts taken from [StackOverflow](https://stackoverflow.com/questions/42097053/matplotlib-cannot-find-basic-fonts).
+
+### Cluster Notebook (2)
+
+- During the assessment of the most important features, that define a cluster, I was getting an error - `The 'Pipeline' has no attribute 'transform'`.
+- The issue was because the pipeline `PipelineClf2ExplainClusters` ends with a classifier `GradientBoostingClassifier` and Scikit-learn’s Pipeline.transform() only works if all final steps have transform() methods.
+- With the help of [StackOverflow](https://stackoverflow.com/questions/57043168/attribute-error-pipeline-object-has-not-attribute-transform) and [Scikit-learn](https://scikit-learn.org/stable/modules/feature_selection.html), fixed the issue by adding the features after scaling and feature selection, but before the classifier and fitting them into a variable.
+
+### Cluster Notebook (3)
+
+- During the cluster analysis based on their profiles, I ran into an error that said `AttributeError: 'DataFrame' object has no attribute 'append'`.
+- This happended because `DataFrame.append()`, which was used in the `DescriptionAllClusters()` function, was deprecated in the previous Pandas versions than the one i am using.
+- Fixed it by using the modern replacement `pd.concat` to concatenate `DescriptionAllClusters`, `ClusterDescription`.
 
 ## Deployment
 
-### Heroku
+The master branch of this repository has been used for the deployed version of this application.
 
-* The App live link is: <https://YOUR_APP_NAME.herokuapp.com/>
-* Set the .python-version Python version to a [Heroku-24](https://devcenter.heroku.com/articles/python-support#supported-runtimes) stack currently supported version.
-* The project was deployed to Heroku using the following steps.
+### Using Github & VSCode
+
+To deploy my Data application, I used the [Code Institute milestone-project-bring-your-own-data Template](https://github.com/Code-Institute-Solutions/milestone-project-bring-your-own-data).
+
+- Click the 'Use This Template' button.
+- Add a repository name and brief description.
+- Click the 'Create Repository from Template' to create your repository.
+- To create a workspace you then need to click 'Code', then 'Create codespace on main', this can take a few minutes.
+- When you want to work on the project it is best to open the workspace from 'Codespaces' as this will open your previous workspace rather than creating a new one. You should pin the workspace so that it isn't deleted.
+- Committing your work should be done often and should have clear/explanatory messages, use the following commands to make your commits:
+  - `git add .`: adds all modified files to a staging area
+  - `git commit -m "A message explaining your commit"`: commits all changes to a local repository.
+  - `git push`: pushes all your committed changes to your Github repository.
+
+### Forking the GitHub Repository
+
+By forking the GitHub Repository you will be able to make a copy of the original repository on your own GitHub account allowing you to view and/or make changes without affecting the original repository by using the following steps:
+
+1. Log in to GitHub and locate the [GitHub Repository](repo here???)
+2. At the top of the Repository (not top of page) just above the "Settings" button on the menu, locate the "Fork" button.
+3. You should now have a copy of the original repository in your GitHub account.
+
+### Making a Local Clone
+
+1. Log in to GitHub and locate the [GitHub Repository](https://github.com/taz1003/breast-cancer-diagnosis-PP5)
+2. Under the repository name, click "Clone or download".
+3. To clone the repository using HTTPS, under "Clone with HTTPS", copy the link.
+4. Open commandline interface on your computer
+5. Change the current working directory to the location where you want the cloned directory to be made.
+6. Type `git clone`, and then paste the URL you copied in Step 3. `$ git clone (paste url)`
+7. Press Enter. Your local clone will be created.
+
+### Deployment To Heroku
+
+- The App live link is: (paste url)
+- The project was deployed to Heroku using the following steps.
 
 1. Log in to Heroku and create an App
 2. At the Deploy tab, select GitHub as the deployment method.
 3. Select your repository name and click Search. Once it is found, click Connect.
 4. Select the branch you want to deploy, then click Deploy Branch.
-5. The deployment process should happen smoothly if all deployment files are fully functional. Click the button Open App on the top of the page to access your App.
-6. If the slug size is too large then add large files not required for the app to the .slugignore file.
+5. The deployment process should happen smoothly in case all deployment files are fully functional. Click now the button Open App on the top of the page to access your App.
+
+---
 
 ## Main Data Analysis and Machine Learning Libraries
 
-* Here you should list the libraries you used in the project and provide example(s) of how you used these libraries.
+|Libraries Used In The Project|How I Used The Library|Link|
+|:----|:----|:----|
+|Numpy|Used to process arrays that store values and aka data|[URL](https://numpy.org/)|
+|Pandas|Used for data analysis, data exploration, data manipulation,and data visualization|[URL](https://pandas.pydata.org/)|
+|Matplotlib|Used for graphs and plots to visualize the data|[URL](https://matplotlib.org/)|
+|Seaborn|Used to visualize the data in the Streamlit app with graphs and plots|[URL](https://seaborn.pydata.org/)|
+|ML: feature-engine|Used for engineering the data for the pipeline|[URL](https://feature-engine.readthedocs.io/en/latest/)|
+|ML: Scikit-learn|Used to creat the pipeline and apply algorithms, and feature engineering steps|[URL](https://scikit-learn.org/stable/)|
+|Streamlit|Used for creating the app to visualize the project's study|[URL](https://streamlit.io/)|
+|Kaggle|Used to import the dataset required to perform the analysis|[URL](https://www.kaggle.com/)|
+|Grammarly|Used to improve, modify or add written communications throughout the project|[URL](https://app.grammarly.com/)|
 
 ## Credits
 
-* In this section, you need to reference where you got your content, media and extra help from. It is common practice to use code from other repositories and tutorials, however, it is important to be very specific about these sources to avoid plagiarism.
-* You can break the credits section up into Content and Media, depending on what you have included in your project.
+- Got the idea for the best model_n_estimators for AdaBoostClassifier in the Predict Diagnosis notebook from [StackOverflow](https://stackoverflow.com/questions/47216224/selecting-n-estimators-based-on-dataset-size-for-adaboostclassifier)
 
 ### Content
 
-* The text for the Home page was taken from Wikipedia Article A
-* Instructions on how to implement form validation on the Sign-Up page was taken from [Specific YouTube Tutorial](https://www.youtube.com/)
-* The icons in the footer were taken from [Font Awesome](https://fontawesome.com/)
+- The text for the Home page was taken from Wikipedia Article A
+- Instructions on how to implement form validation on the Sign-Up page were taken from [Specific YouTube Tutorial](https://www.youtube.com/)
+- The icons in the footer were taken from [Font Awesome](https://fontawesome.com/)
 
 ### Media
 
-* The photos used on the home and sign-up page are from This Open Source site
-* The images used for the gallery page were taken from this other open-source site
+- The photos used on the home and sign-up page are from This Open-Source site
+- The images used for the gallery page were taken from this other open-source site
 
 ## Acknowledgements (optional)
 
-
-* In case you would like to thank the people that provided support through this project.
-
+Thank the people who provided support through this project.

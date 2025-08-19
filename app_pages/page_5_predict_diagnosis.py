@@ -3,7 +3,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-from src.data_management import load_pkl_file
+from src.data_management import load_breast_cancer_data, load_pkl_file
 from src.machine_learning.evaluate_clf import clf_performance
 
 
